@@ -10,14 +10,33 @@ import Download_img from './Download_img'
 import React, { useState } from 'react';
 import No_bg from './No_bg'
 import Download_popup from './Download_popup'
+import Eula from './Eula'
+
 function Bg() {
 
   const [selected_tab, setselected_tab] = useState(true);
+  const [show_download_popup, setshow_download_popup] = useState(false);
+  const [show_eula_popup, setshow_eula_popup] = useState(false);
 
   function choose_tab(){
     setselected_tab(!selected_tab);
   }
 
+  function show_download_poup_func(){
+    setshow_download_popup(true);
+  }
+
+  function close_pupup_func(){
+    setshow_download_popup(false);
+  }
+
+  function show_eula(){
+    setshow_eula_popup(true);
+  }
+
+  function close_eula_func(){
+    setshow_eula_popup(false);
+  }
 
   return (
     <>
@@ -32,7 +51,7 @@ function Bg() {
          <div className='middle_div'>
             <div className='right_div'>
                 <div className='right_div_inner'>
-                      <Download_img title="תמונה חינם" subtitle="תצוגה מקדימה של תמונה" top="true" btn_text="הורד" last_title="איכות טובה עד 0.25 מגה פיקסל"></Download_img>
+                      <Download_img show_download_poup_func={show_download_poup_func} title="תמונה חינם" subtitle="תצוגה מקדימה של תמונה" top="true" btn_text="הורד" last_title="איכות טובה עד 0.25 מגה פיקסל"></Download_img>
 
                       <Download_img title="Pro" subtitle="תמונה מלאה" top="false" btn_text="הורד HD" last_title="האיכות הטובה ביותר עד 25 מגה פיקסל"></Download_img>
 
@@ -53,7 +72,7 @@ function Bg() {
               </div>
 
               <div className='left_div_footer'>
-                  <button className='takanon_btn'> תקנון החברה </button>
+                  <button className='takanon_btn' onClick={show_eula}> תקנון החברה </button>
                   <div className='takanon_text'> על ידי העלאת תמונה אתה מסכים לתנאים וההגבלות שלנו. אתר זה מוגן וחלים מדיניות ופרטיות </div>
               </div>
 
@@ -73,9 +92,14 @@ function Bg() {
        
 
     </div>
+  {show_download_popup? <>
+  <div className='layout'> </div>
+  <Download_popup  close_pupup_func={close_pupup_func}> </Download_popup></>: <></>}
 
 
-<Download_popup> </Download_popup>
+  {show_eula_popup? <>
+  <div className='layout'> </div>
+ <Eula close_eula_func={close_eula_func}></Eula></>:<></>}
 
 </>
   );

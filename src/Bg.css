@@ -96,6 +96,7 @@
     background-position: 21px 9px;
     text-align: right;
     padding-right: 19px;
+    cursor: pointer;
 }
 
 .takanon_text{
@@ -146,4 +147,12 @@
 
 .selected_tab{
     border-bottom: 3px solid #9C27B0;
+}
+
+.layout{
+    background-color: #000000ad;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
 }
