@@ -12,6 +12,8 @@ function No_bg(props) {
         inputElement.current.click();
     }
 
+    
+
     return (
         
         <div className='no_bg_cont'>
@@ -24,8 +26,8 @@ function No_bg(props) {
 
                     </>
                 : <></>}
-
-                <img className="uploaded_img" src={upload_img} />
+                
+        {props.img_name?<img className="uploaded_img" src={'http://localhost:5000/'+props.img_name} />: <></>}
 
         </div>
 

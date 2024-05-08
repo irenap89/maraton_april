@@ -18,6 +18,10 @@ function Bg() {
   const [selected_tab, setselected_tab] = useState(true);
   const [show_download_popup, setshow_download_popup] = useState(false);
   const [show_eula_popup, setshow_eula_popup] = useState(false);
+  const [show_err_msg, setshow_err_msg] = useState(false);
+  const [show_err_msg_size, setshow_err_msg_size] = useState(false);
+  const [image_name, setimage_name] = useState('');
+
 
   function choose_tab(){
     setselected_tab(!selected_tab);
@@ -53,22 +57,34 @@ function Bg() {
 
      let url ='http://localhost:5000/upload_file';
 
-     let formData = new FormData();    //formdata object
+      if(file_info.size<=1000000) {
+        debugger;
+        if(file_info.type=='image/png' || file_info.type=='image/jpeg' || file_info.type=='image/jpg'){
+          let formData = new FormData();   
 
-      formData.append('name', 'ABC');   //append the values with key, value pair
-      formData.append('age', 20);
+          formData.append('file',file_info);
 
-      const config = {     
-          headers: { 'content-type': 'multipart/form-data' }
+            const config = {     
+                headers: { 'content-type': 'multipart/form-data' }
+            }
+
+            axios.post(url, formData, config)
+            .then(response => {
+              debugger;
+                console.log(response);
+                setimage_name(response.data);
+
+
+            })
+            .catch(error => {
+                console.log(error);
+            });
+        } else {
+          setshow_err_msg(true);
+        }
+      } else {
+        setshow_err_msg_size(true);
       }
-
-      axios.post(url, formData, config)
-      .then(response => {
-          console.log(response);
-      })
-      .catch(error => {
-          console.log(error);
-      });
 
   }
 
@@ -81,8 +97,10 @@ function Bg() {
          <button className='upload_btn' onClick={focusInput}>העלאת תמונה  </button>
          <input type="file" ref={inputElement} className='input_file' onChange={uploaded_file}/>
          <div className='upload_text'> פורמטים נתמכים png, jpeg</div>
+        {show_err_msg? <div className='err_msg'> קובץ לא נתמך </div> : <></>}
+        {show_err_msg_size? <div className='err_msg'> קובץ גדול מידי </div> : <></>}
 
-
+        
          <div className='middle_div'>
             <div className='right_div'>
                 <div className='right_div_inner'>
@@ -92,7 +110,7 @@ function Bg() {
 
                 </div>
             </div>
-
+            
             <div className='left_div'>
               <div className='tabs_cont'> 
                 <div className={'tab ' +(selected_tab ? 'selected_tab': '')} onClick={choose_tab}>הוסר רקע </div>
@@ -100,9 +118,9 @@ function Bg() {
               </div>
 
               <div className='left_div_inner'>
-                  {selected_tab? <No_bg title="no_bg"></No_bg> :
+                  {selected_tab? <No_bg img_name={image_name} title="no_bg"></No_bg> :
 
-                    <No_bg title="original"></No_bg>}
+                    <No_bg img_name={image_name} title="original"></No_bg>}
 
               </div>
 

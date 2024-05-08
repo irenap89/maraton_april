@@ -14,7 +14,12 @@ const port = 5000
 
 app.post('/upload_file', (req, res) => {
   console.log(req.files);
-  let fileName = req.files.file.name;
+
+  let d = new Date();
+  let time = d.getTime();
+
+  let fileName = time+'_'+req.files.file.name;
+  
   let file_path = __dirname + '/upload_img/' + fileName;
 
   req.files.file.mv(file_path , function(err) {
