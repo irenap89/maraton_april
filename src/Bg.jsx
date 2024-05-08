@@ -21,7 +21,7 @@ function Bg() {
   const [show_err_msg, setshow_err_msg] = useState(false);
   const [show_err_msg_size, setshow_err_msg_size] = useState(false);
   const [image_name, setimage_name] = useState('');
-
+  const [bg_color, setbg_color] = useState('green');
 
   function choose_tab(){
     setselected_tab(!selected_tab);
@@ -63,6 +63,7 @@ function Bg() {
           let formData = new FormData();   
 
           formData.append('file',file_info);
+          formData.append('color', bg_color);
 
             const config = {     
                 headers: { 'content-type': 'multipart/form-data' }
@@ -86,6 +87,10 @@ function Bg() {
         setshow_err_msg_size(true);
       }
 
+  }
+
+  function save_color_func(color){
+    setbg_color(color);
   }
 
   return (
@@ -118,7 +123,8 @@ function Bg() {
               </div>
 
               <div className='left_div_inner'>
-                  {selected_tab? <No_bg img_name={image_name} title="no_bg"></No_bg> :
+                  {selected_tab? 
+                    <No_bg save_color_func={save_color_func} img_name={image_name} title="no_bg"></No_bg> :
 
                     <No_bg img_name={image_name} title="original"></No_bg>}
 
@@ -147,7 +153,7 @@ function Bg() {
     </div>
   {show_download_popup? <>
   <div className='layout'> </div>
-  <Download_popup  close_pupup_func={close_pupup_func}> </Download_popup></>: <></>}
+  <Download_popup  img_name={image_name}  close_pupup_func={close_pupup_func}> </Download_popup></>: <></>}
 
 
   {show_eula_popup? <>
