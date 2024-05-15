@@ -11,7 +11,7 @@ import React, { useState } from 'react';
 import No_bg from './No_bg'
 import Download_popup from './Download_popup'
 import Eula from './Eula'
-import { useRef } from "react";
+import { useRef,useEffect } from "react";
 
 function Bg() {
 
@@ -22,6 +22,15 @@ function Bg() {
   const [show_err_msg_size, setshow_err_msg_size] = useState(false);
   const [image_name, setimage_name] = useState('');
   const [bg_color, setbg_color] = useState('green');
+
+  const [show_loader, setshow_loader] = useState(false);
+
+  useEffect(() => {
+    debugger;
+    setshow_loader(false);
+  }, [image_name]);
+
+
 
   function choose_tab(){
     setselected_tab(!selected_tab);
@@ -52,6 +61,8 @@ function Bg() {
 
   function uploaded_file(e){
 
+      setshow_loader(true);
+
      let file_info = e.target.files[0];
 
 
@@ -74,7 +85,7 @@ function Bg() {
               debugger;
                 console.log(response);
                 setimage_name(response.data);
-
+               
 
             })
             .catch(error => {
@@ -160,6 +171,10 @@ function Bg() {
   <div className='layout'> </div>
  <Eula close_eula_func={close_eula_func}></Eula></>:<></>}
 
+      {show_loader? 
+      <div className='loader'> 
+        <div className='loader_in'> 39% </div>
+      </div>: <></>} 
 </>
   );
 }
